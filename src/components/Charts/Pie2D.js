@@ -20,24 +20,19 @@ ReactFC.fcRoot(FusionCharts, Chart, FusionTheme);
 // STEP 4 - Creating the DOM element to pass the react-fusioncharts component
 const ChartComponent = ({ data }) => {
   const chartConfigs = {
-    type: 'pie2d', // The chart type
+    // The chart type
+    type: 'pie2d',
     width: '400', // Width of the chart
     height: '400', // Height of the chart
     dataFormat: 'json', // Data type
     dataSource: {
       // Chart Configuration
       chart: {
-        //Set the chart caption
-        caption: 'Countries With Most Oil Reserves [2017-18]',
-        //Set the chart subcaption
-        subCaption: 'In MMbbl = One Million barrels',
-        //Set the x-axis name
-        xAxisName: 'Country',
-        //Set the y-axis name
-        yAxisName: 'Reserves (MMbbl)',
-        numberSuffix: 'K',
-        //Set the theme for your chart
+        caption: 'Languages',
         theme: 'fusion',
+        decimals: 0,
+        pieRadius: '35%',
+        paletteColors: ['#f0db4f', '#f96302', '#1da1f2', '#704db5', '#8cbe9a'],
       },
       // Chart Data
       data,
