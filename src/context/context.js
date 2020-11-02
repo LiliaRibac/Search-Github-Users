@@ -25,6 +25,19 @@ const GithubProvider = ({ children }) => {
     );
     if (response) {
       setGithubUser(response.data);
+      // repos
+      const { login, followes_url } = response.data;
+      axios(`${rootUrl}/users/${login}/repos?per_page=100`).then((response) =>
+        setRepos(response.data)
+      );
+
+      // followers
+
+      axios(`${followes_url}?per_page=100`).then((response) =>
+        setFollowers(response.data)
+      );
+      // https://api.github.com/users/https://api.github.com/users/LiliaRibac/repos?per_page=100
+      // https://api.github.com/users/https://api.github.com/users/LiliaRibac/followers
     } else {
       toggleError(true, 'there is no user with that username');
     }
