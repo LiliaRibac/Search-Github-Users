@@ -13,9 +13,24 @@ const GithubProvider = ({ children }) => {
   const [followers, setFollowers] = useState(mockFollowers);
   //request loding
   const [requests, setRequests] = useState(0);
-  const [loading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   // error
   const [error, setError] = useState({ show: false, msg: '' });
+
+  const searchGitHubUser = async (user) => {
+    toggleError();
+    setIsLoading(true);
+    const response = await axios(`${rootUrl}/users/${user}`).catch((err) =>
+      console.log(err)
+    );
+    if (response) {
+      setGithubUser(response.data);
+    } else {
+      toggleError(true, 'there is no user with that username');
+    }
+    checkRequests();
+    setIsLoading(false);
+  };
   // chack rate
   const checkRequests = () => {
     axios(`${rootUrl}/rate_limit`)
@@ -42,7 +57,15 @@ const GithubProvider = ({ children }) => {
   useEffect(checkRequests, []);
   return (
     <GithubContext.Provider
-      value={{ githubUser, repos, followers, requests, error }}
+      value={{
+        githubUser,
+        repos,
+        followers,
+        requests,
+        error,
+        searchGitHubUser,
+        isLoading,
+      }}
     >
       {children}
     </GithubContext.Provider>
