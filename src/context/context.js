@@ -25,19 +25,33 @@ const GithubProvider = ({ children }) => {
     );
     if (response) {
       setGithubUser(response.data);
+      const { login, followers_url } = response.data;
+
+      // one way to do
+      await Promise.allSettled([
+        axios(`${rootUrl}/users/${login}/repos?per_page=100`),
+        axios(`${followers_url}?per_page=100`),
+      ]).then((results) => {
+        const [repos, followers] = results;
+        const status = 'fulfilled';
+        if (repos.status === status) {
+          setRepos(repos.value.data);
+        }
+        if (followers.status === status) {
+          setFollowers(followers.value.data);
+        }
+      });
+
+      // second way to do
       // repos
-      const { login, followes_url } = response.data;
-      axios(`${rootUrl}/users/${login}/repos?per_page=100`).then((response) =>
-        setRepos(response.data)
-      );
+      // axios(`${rootUrl}/users/${login}/repos?per_page=100`).then((response) =>
+      //   setRepos(response.data)
+      // );
 
-      // followers
-
-      axios(`${followes_url}?per_page=100`).then((response) =>
-        setFollowers(response.data)
-      );
-      // https://api.github.com/users/https://api.github.com/users/LiliaRibac/repos?per_page=100
-      // https://api.github.com/users/https://api.github.com/users/LiliaRibac/followers
+      // // followers
+      // axios(`${followes_url}?per_page=100`).then((response) =>
+      //   setFollowers(response.data)
+      // );
     } else {
       toggleError(true, 'there is no user with that username');
     }
