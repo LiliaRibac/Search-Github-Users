@@ -5,11 +5,18 @@ import App from './App';
 import * as serviceWorker from './serviceWorker';
 import { GithubProvider } from './context/context';
 import { Auth0Provider } from '@auth0/auth0-react';
+import dotenv from 'dotenv';
+dotenv.config();
+// console.log(process.env);
+
+// const { REACT_APP_DOMAIN_KEY, REACT_APP_CLIENT_ID } = process.env;
 
 ReactDOM.render(
   <Auth0Provider
-    domain="DOMAIN"
-    clientId="CLIENT_ID"
+    // domain="process.env.DOMAIN"
+    // clientId="process.env.CLIENT_ID"
+    domain="dev-j40u92er.us.auth0.com"
+    clientId="OD4cC4ZuQd2rN4bzHZICj0iwMQZaJZCT"
     redirectUri={window.location.origin}
   >
     <React.StrictMode>
